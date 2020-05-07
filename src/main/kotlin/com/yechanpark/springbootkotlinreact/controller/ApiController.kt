@@ -13,7 +13,6 @@ class ApiController(
 
     @GetMapping("/hello")
     fun hello(): String {
-        print("asdasd");
         val result: HashMap<String, String> = HashMap()
         result["message"] = "안녕"
         return objectMapper.writeValueAsString(result)
