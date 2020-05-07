@@ -8,6 +8,7 @@ class TopMenuComponent extends Component {
     render() {
         return (
             <Router>
+                <Route path="/" component={MainComponent}/>
                 <Route path="/main" component={MainComponent}/>
                 <Route path="/dashboard" component={DashboardComponent}/>
             </Router>
