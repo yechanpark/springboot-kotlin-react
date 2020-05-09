@@ -1,16 +1,16 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import MainComponent from './MainComponent'
-import DashboardComponent from './Dashboard'
+import AddBoard from './board/AddBoard'
 
 class TopMenuComponent extends Component {
 
     render() {
         return (
             <Router>
-                <Route path="/" component={MainComponent}/>
+                <Route exact path="/" component={MainComponent}/>
                 <Route path="/main" component={MainComponent}/>
-                <Route path="/dashboard" component={DashboardComponent}/>
+                <Route path="/board/add" component={AddBoard}/>
             </Router>
         )
     }
