@@ -1,22 +1,37 @@
 package com.yechanpark.springbootkotlinreact.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.yechanpark.springbootkotlinreact.model.Board
+import com.yechanpark.springbootkotlinreact.service.BoardService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api")
-class ApiController(
-    val objectMapper: ObjectMapper = ObjectMapper()
-) {
+class ApiController{
+    @Autowired
+    lateinit var boardService: BoardService
 
-    @GetMapping("/hello")
-    fun hello(): String {
-        val result: HashMap<String, String> = HashMap()
-        result["message"] = "안녕"
-        return objectMapper.writeValueAsString(result)
+    @GetMapping("/boards")
+    fun getBoards(): ResponseEntity<*> {
+        val boards: List<Board> = boardService.getBoards()
+        return ResponseEntity(boards, HttpStatus.CREATED)
     }
+
+    @GetMapping("/board/{boardId}")
+    fun getBoard(@PathVariable("boardId") boardId: Int): ResponseEntity<*> {
+        val board: Board = boardService.getBoard(boardId)
+        return ResponseEntity(board, HttpStatus.CREATED)
+    }
+
+    @PostMapping("/board")
+    fun saveBoard(@RequestBody board: Board): ResponseEntity<*> {
+        val newBoard = Board(title = board.title, contents = board.contents)
+        boardService.save(newBoard)
+        return ResponseEntity(newBoard, HttpStatus.CREATED)
+    }
+
 }
 
 

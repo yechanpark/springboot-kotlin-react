@@ -10,8 +10,12 @@ plugins {
     // https://github.com/srs/gradle-node-plugin/issues/301
     id("com.github.node-gradle.node") version "2.2.3"
     //id("com.moowork.node") version "1.3.1" // nodejs 의존 추가
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.3.72"
 }
 
+apply {
+    plugin("kotlin-jpa")
+}
 //apply(plugin = "com.moowork.node")
 
 group = "com.yechanpark"
@@ -30,10 +34,12 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compileOnly("org.projectlombok:lombok")
+    runtimeOnly("com.h2database:h2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
