@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom'
 import axios from "axios";
+import BoardItem from "./board/BoardItem";
 
 class MainComponent extends Component {
     constructor(props) {
@@ -49,6 +50,7 @@ class MainComponent extends Component {
                         <td width="100">Title</td>
                         <td width="300">Contents</td>
                         <td width="100">Date</td>
+                        <td width="100">ETC</td>
                     </tr>
                     {
                         boards.map(
@@ -64,15 +66,5 @@ class MainComponent extends Component {
     }
 }
 
-class BoardItem extends Component {
-    render() {
-        return (<tr>
-            <td>{this.props.row.id}</td>
-            <td>{this.props.row.title}</td>
-            <td>{this.props.row.contents}</td>
-            <td>{this.props.row.date}</td>
-        </tr>);
-    }
-}
 
 export default MainComponent

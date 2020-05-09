@@ -21,4 +21,8 @@ class BoardService {
     fun save(board: Board) {
         boardRepository.save(board)
     }
+
+    fun delete(boardId: Int) {
+        boardRepository.deleteById(boardId)
+    }
 }

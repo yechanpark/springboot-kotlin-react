@@ -36,7 +36,7 @@ class AddBoard extends Component {
                     AddBoard 페이지
                     title : <input type="text" name="title" onChange={this.handleChange} value={this.state.title}/>
                     contents : <input type="text" name="contents" onChange={this.handleChange} value={this.state.contents}/>
-                    <button type="submit"/>
+                    <button type="submit">추가</button>
                 </form>
             </div>
         )

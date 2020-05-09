@@ -32,6 +32,12 @@ class ApiController{
         return ResponseEntity(newBoard, HttpStatus.CREATED)
     }
 
+    @DeleteMapping("/board/{boardId}")
+    fun deleteBoard(@PathVariable("boardId") boardId: Int): ResponseEntity<*> {
+        boardService.delete(boardId)
+        return ResponseEntity<HttpStatus>(HttpStatus.OK)
+    }
+
 }
 
 
