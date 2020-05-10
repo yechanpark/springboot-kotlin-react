@@ -32,12 +32,13 @@ class AddBoard extends Component {
 
     render() {
         const { title, contents } = this.state
+        const { handleSubmit, handleChange } = this
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     AddBoard 페이지
-                    title : <input type="text" name="title" onChange={this.handleChange} value={title}/>
-                    contents : <input type="text" name="contents" onChange={this.handleChange} value={contents}/>
+                    title : <input type="text" name="title" onChange={handleChange} value={title}/>
+                    contents : <input type="text" name="contents" onChange={handleChange} value={contents}/>
                     <button type="submit">추가</button>
                 </form>
             </div>

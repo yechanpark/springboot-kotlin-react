@@ -5,24 +5,27 @@ import { withRouter } from 'react-router-dom'
 class BoardButton extends Component {
 
     handleUpdate = () => {
-        console.log("update boardId: " + this.props.id)
-        this.props.history.push('/board/update/' + this.props.id);
+        const { id } = this.props
+        console.log("update boardId: " + id)
+        this.props.history.push('/board/update/' + id);
     }
 
     handleDelete = () => {
-        console.log("delete boardId:" + this.props.id)
+        const { id } = this.props
+        console.log("delete boardId:" + id)
         axios
-            .delete("/api/board" + "/" + this.props.id)
+            .delete("/api/board" + "/" + id)
             .then(() => {
                 this.props.history.push('/main');
             }).catch(res => console.log(res))
     }
 
     render() {
+        const { handleUpdate, handleDelete } = this
         return (
             <td>
-                <button onClick={this.handleUpdate}>수정</button>
-                <button onClick={this.handleDelete}>삭제</button>
+                <button onClick={handleUpdate}>수정</button>
+                <button onClick={handleDelete}>삭제</button>
             </td>
         );
     }

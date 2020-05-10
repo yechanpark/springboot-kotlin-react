@@ -28,6 +28,13 @@ class MainComponent extends Component {
     render() {
         const {boards} = this.state;
 
+        // boards 배열을 map 함수를 사용하여 ItemList으로 구성된 컴포넌트 배열인 boardItemList로 변환
+        const boardItemList = boards.map(
+            row => (
+                <BoardItem key={row.id} row={row}/>
+            )
+        );
+
         return (
             <div>
                 Main 페이지
@@ -41,13 +48,7 @@ class MainComponent extends Component {
                         <td width="100">Date</td>
                         <td width="100">ETC</td>
                     </tr>
-                    {
-                        boards.map(
-                            row => (
-                                <BoardItem key={row.id} row={row}/>
-                            )
-                        )
-                    }
+                        {boardItemList}
                     </tbody>
                 </table>
             </div>

@@ -3,13 +3,14 @@ import BoardButton from "./BoardButton";
 
 class BoardItem extends Component {
     render() {
+        const {id, title, contents, date} = this.props.row
         return (
             <tr>
-                <td>{this.props.row.id}</td>
-                <td>{this.props.row.title}</td>
-                <td>{this.props.row.contents}</td>
-                <td>{this.props.row.date}</td>
-                <BoardButton id={this.props.row.id}/>
+                <td>{id}</td>
+                <td>{title}</td>
+                <td>{contents}</td>
+                <td>{date}</td>
+                <BoardButton id={id}/>
             </tr>
         );
     }
