@@ -25,7 +25,7 @@ class AddBoard extends Component {
             title: this.state.title,
             contents: this.state.contents
         }).then(() => {
-            this.props.history.push('/main');
+            window.location = "/main"
         }).catch(res => console.log(res))
     }
 

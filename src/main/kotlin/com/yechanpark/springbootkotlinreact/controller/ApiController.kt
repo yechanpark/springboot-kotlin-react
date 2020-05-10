@@ -38,6 +38,15 @@ class ApiController{
         return ResponseEntity<HttpStatus>(HttpStatus.OK)
     }
 
+    @PutMapping("/board/{boardId}")
+    fun updateBoard(@RequestBody board: Board, @PathVariable("boardId") boardId: Int): ResponseEntity<*> {
+        val oldBoard = boardService.getBoard(boardId)
+        oldBoard.title = board.title
+        oldBoard.contents = board.contents
+        boardService.save(oldBoard)
+        return ResponseEntity<HttpStatus>(HttpStatus.OK)
+    }
+
 }
 
 

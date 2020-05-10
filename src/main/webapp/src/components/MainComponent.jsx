@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom'
-import axios from "axios";
 import BoardItem from "./board/BoardItem";
+import axios from "axios";
 
 class MainComponent extends Component {
     constructor(props) {
@@ -18,21 +18,10 @@ class MainComponent extends Component {
      * 외부에서 데이터를 불러와야 한다면, 네트워크 요청을 보내기 적절한 위치
      */
     componentDidMount() {
-        this.getBoards();
-    }
-
-    getBoards = () => {
         axios.get("api/boards").then(res => {
-            console.log(res)
-            console.log(res.data)
-
-            if (res.data.length !== 0) {
-                this.setState({
-                    boards: res.data
-                });
-            } else {
-                console.log("empty")
-            }
+            this.setState({
+                boards: res.data
+            });
         }).catch(res => console.log(res))
     }
 
