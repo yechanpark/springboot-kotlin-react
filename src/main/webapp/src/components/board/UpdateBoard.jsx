@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 
-class AddBoard extends Component {
+class UpdateBoard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,11 +21,11 @@ class AddBoard extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("/api/board", {
+        axios.put("/api/board" + "/" + this.props.match.params.boardId, {
             title: this.state.title,
             contents: this.state.contents
         }).then(() => {
-            window.location = "/main"
+            this.props.history.push('/main');
         }).catch(res => console.log(res))
     }
 
@@ -33,14 +33,14 @@ class AddBoard extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    AddBoard 페이지
+                    UpdateBoard 페이지
                     title : <input type="text" name="title" onChange={this.handleChange} value={this.state.title}/>
                     contents : <input type="text" name="contents" onChange={this.handleChange} value={this.state.contents}/>
-                    <button type="submit">추가</button>
+                    <button type="submit">수정</button>
                 </form>
             </div>
         )
     }
 }
 
-export default AddBoard
+export default UpdateBoard
