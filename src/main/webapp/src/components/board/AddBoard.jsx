@@ -11,10 +11,10 @@ class AddBoard extends Component {
     }
 
     handleChange = (e) => {
-        const value = e.target.value;
+        const {value, name} = e.target;
         this.setState({
             ...this.state,
-            [e.target.name]: value
+            [name]: value
         });
 
     }
