@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api")
 class ApiController{
+
+    // Field DI
     @Autowired
     lateinit var boardService: BoardService
 
