@@ -21,21 +21,23 @@ class UpdateBoard extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const { title, contents } = this.state
         axios.put("/api/board" + "/" + this.props.match.params.boardId, {
-            title: this.state.title,
-            contents: this.state.contents
+            title: title,
+            contents: contents
         }).then(() => {
             this.props.history.push('/main');
         }).catch(res => console.log(res))
     }
 
     render() {
+        const { title, contents } = this.state
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
                     UpdateBoard 페이지
-                    title : <input type="text" name="title" onChange={this.handleChange} value={this.state.title}/>
-                    contents : <input type="text" name="contents" onChange={this.handleChange} value={this.state.contents}/>
+                    title : <input type="text" name="title" onChange={this.handleChange} value={title}/>
+                    contents : <input type="text" name="contents" onChange={this.handleChange} value={contents}/>
                     <button type="submit">수정</button>
                 </form>
             </div>
