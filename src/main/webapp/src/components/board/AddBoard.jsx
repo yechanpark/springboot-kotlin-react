@@ -14,6 +14,8 @@ class AddBoard extends Component {
         const {value, name} = e.target;
         this.setState({
             ...this.state,
+            // Computed property names
+            // input 태그의 name 값을 배열의 key 값으로 사용
             [name]: value
         });
 
@@ -22,11 +24,12 @@ class AddBoard extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { title, contents } = this.state
+        const { history }         = this.props
         axios.post("/api/board", {
             title: title,
             contents: contents
         }).then(() => {
-            this.props.history.push('/main');
+            history.push('/');
         }).catch(res => console.log(res))
     }
 
@@ -37,6 +40,7 @@ class AddBoard extends Component {
             <div>
                 <form onSubmit={handleSubmit}>
                     AddBoard 페이지
+                    {"\n"}
                     title : <input type="text" name="title" onChange={handleChange} value={title}/>
                     contents : <input type="text" name="contents" onChange={handleChange} value={contents}/>
                     <button type="submit">추가</button>
