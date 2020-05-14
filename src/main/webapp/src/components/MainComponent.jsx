@@ -90,24 +90,87 @@ class MainComponent extends Component {
                 //"date,desc"
                 "id,asc"
             ],
-            size: 10
-
+            pageSize: 10,
+            currentPage: 0
         }
     }
 
-    // 자식 Component에서 부모 Component의 메서드를 호출해서 데이터를 삽입
-    onChangePage = (boards) => {
-        console.log("MainComponent# onChangePage()")
-        console.log("MainComponent# onChangePage() - boards : " + boards)
+    // 초기 데이터 로드
+    componentDidMount() {
+        this.loadData();
+    }
+
+    // 페이징 버튼 클릭 시 변경 데이터 로드
+    // 무한루프에 빠지지 않도록 조건에 따라 로드하도록 해야 함
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        let prevBoardsLength = prevState.boards.length;
+        let currentBoardsLength = this.state.boards.length;
+
+        if (this.state.totalPages < this.state.currentPage) {
+            this.setState({currentPage: this.state.currentPage-1});
+        }
+
+        if (
+            // 페이지 번호가 변경된 경우
+            (prevState.currentPage !== this.state.currentPage)
+
+            // boards의 갯수가 다른 경우
+            || (prevBoardsLength !== currentBoardsLength)
+        ) {
+            this.loadData();
+        }
+    }
+
+    loadData = async () => {
+        const {getURL, sort, pageSize, currentPage} = this.state;
+
+        // 데이터 로드
+        await this.getData(getURL, sort, pageSize, currentPage).then(data => {
+            this.setState({
+                totalElements: data.totalElements,
+                totalPages: data.totalPages,
+                boards: data.content
+            })
+        });
+    }
+
+    getData = async (getURL, $sortQueryString, pageSize, page) => {
+        // 소팅 쿼리 스트링
+        let sortQueryString = $sortQueryString.join('&sort=');
+
+        // page는 0부터 시작하므로 -1 처리해야 함
+        let res = await axios.get(`${getURL}?sort=${sortQueryString}&size=${pageSize}&page=${page-1}`)
+            .then( (res) => { return res; } )
+            .catch(() => console.log("error"));
+        return res.data;
+    };
+
+    onDeleteUpdateButton = () => {
+        this.loadData();
+    }
+
+    // 자식 Component에서 부모 Component의 메서드를 호출해서 state를 업데이트
+    // 부모 Component는 자식 Component에 의해 state가 업데이트 됐으므로 자동적으로 렌더링
+    onClickPagingButton = (currentPage) => {
         // update state with new page of items
-        this.setState(
-            {boards: boards},
-            () => console.log("MainComponent# onChangePage() setState callback this.state.boards : " + this.state.boards));
+        this.setState({currentPage: currentPage});
     }
 
     render() {
-        const {boards, getURL, sort, size} = this.state;
+        const {boards, currentPage, totalElements, pageOfItems, totalPages} = this.state;
 
+        // 조건부 렌더링
+        let pagination = '';
+
+        if ( totalElements ) {
+            pagination = <Pagination
+                currentPage = {currentPage}
+                totalElements = {totalElements}
+                pageOfItems = {pageOfItems}
+                totalPages = {totalPages}
+                onClickPagingButton={this.onClickPagingButton}
+            />
+        }
         return (
             <div>
                 Main 페이지
@@ -140,16 +203,11 @@ class MainComponent extends Component {
                         {
                             boards.map(
                                 row => (
-                                    <BoardItem key={row.id} row={row}/>
+                                    <BoardItem onDeleteUpdateButton={this.onDeleteUpdateButton} key={row.id} row={row}/>
                                     )
                             )
                         }
-                        <Pagination
-                            getURL={getURL}
-                            sort={sort}
-                            size={size}
-                            onChangePage={this.onChangePage}
-                        />
+                        {pagination}
                     </tbody>
                 </table>
             </div>

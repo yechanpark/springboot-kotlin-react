@@ -4,21 +4,22 @@ import { withRouter } from 'react-router-dom'
 
 class BoardButton extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
     handleUpdate = () => {
         const { id, history } = this.props;
-        console.log("update boardId: " + id);
         history.push('/board/update/' + id);
     }
 
 
     handleDelete = () => {
-        const { id, history } = this.props;
-        console.log("delete boardId:" + id);
+        const { id, history, onDeleteUpdateButton } = this.props;
         axios.delete("/api/board" + "/" + id)
             .then(
                 () => {
-                    // history.push('/'); // 같은 경로에 대해서는 동작하지 않음
-                    window.location.reload();
+                    onDeleteUpdateButton()
                 }
             )
             .catch(
