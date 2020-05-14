@@ -139,8 +139,8 @@ class Pagination extends Component {
     render() {
         let pager = this.state.pager;
 
-        if (!pager.pages || pager.pages.length <= 1) {
-            // don't display pager if there is only 1 page
+        if (!pager.pages) {
+            // don't display pager if there isn't page
             return null;
         }
 
@@ -150,7 +150,9 @@ class Pagination extends Component {
                     <a onClick={() => this.setPage(1)}>First</a>
                 </li>
                 <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-                    <a onClick={() => this.setPage(pager.currentPage - 1)}>Previous</a>
+                    <a onClick={() => {
+                        this.setPage(pager.currentPage > 1 ? pager.currentPage - 1 : 1);
+                    }}>Previous</a>
                 </li>
                 {pager.pages.map((page, index) =>
                     <li key={index} className={pager.currentPage === page ? 'active' : ''}>
@@ -158,7 +160,9 @@ class Pagination extends Component {
                     </li>
                 )}
                 <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-                    <a onClick={() => this.setPage(pager.currentPage + 1)}>Next</a>
+                    <a onClick={() => {
+                        this.setPage(pager.totalPages > pager.currentPage ? pager.currentPage + 1 : pager.totalPages);
+                    }}>Next</a>
                 </li>
                 <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
                     <a onClick={() => this.setPage(pager.totalPages)}>Last</a>
