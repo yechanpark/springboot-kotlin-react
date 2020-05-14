@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link} from 'react-router-dom'
 import BoardItem from "./board/BoardItem";
 import axios from "axios";
+import Pagination from "./board/Pagination";
 
 class MainComponent extends Component {
     /**
@@ -83,19 +84,29 @@ class MainComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            boards: []
+            boards: [],
+            getURL: "/api/boards",
+            sort: [
+                //"date,desc"
+                "id,asc"
+            ],
+            size: 10
+
         }
     }
 
-    render() {
-        const {boards} = this.state;
+    // 자식 Component에서 부모 Component의 메서드를 호출해서 데이터를 삽입
+    onChangePage = (boards) => {
+        console.log("MainComponent# onChangePage()")
+        console.log("MainComponent# onChangePage() - boards : " + boards)
+        // update state with new page of items
+        this.setState(
+            {boards: boards},
+            () => console.log("MainComponent# onChangePage() setState callback this.state.boards : " + this.state.boards));
+    }
 
-        // boards 배열을 map 함수를 사용하여 BoardItem으로 구성된 컴포넌트 배열인 boardItemList로 변환
-        const boardItemList = boards.map(
-            row => (
-                <BoardItem key={row.id} row={row}/>
-            )
-        );
+    render() {
+        const {boards, getURL, sort, size} = this.state;
 
         return (
             <div>
@@ -125,20 +136,24 @@ class MainComponent extends Component {
                         <td width="300">Date</td>
                         <td width="100">ETC</td>
                     </tr>
-                        {boardItemList}
+                        {/*boards 배열을 map 함수를 사용하여 BoardItem으로 구성된 컴포넌트 배열인 boardItemList로 변환*/}
+                        {
+                            boards.map(
+                                row => (
+                                    <BoardItem key={row.id} row={row}/>
+                                    )
+                            )
+                        }
+                        <Pagination
+                            getURL={getURL}
+                            sort={sort}
+                            size={size}
+                            onChangePage={this.onChangePage}
+                        />
                     </tbody>
                 </table>
             </div>
         )
-    }
-
-    componentDidMount() {
-        axios.get("/api/boards").then(res => {
-            console.log("get /api/boards")
-            this.setState({
-                boards: res.data
-            });
-        }).catch(res => console.log(res))
     }
 }
 

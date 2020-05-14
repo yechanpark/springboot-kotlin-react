@@ -12,7 +12,7 @@ class DataInitializer (
 ) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
-        for (num in 1..35) {
+        for (num in 1..355) {
             boardRepository.save(Board(title = "default title$num", contents = "default contents$num"))
         }
     }

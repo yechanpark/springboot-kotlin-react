@@ -2,6 +2,8 @@ package com.yechanpark.springbootkotlinreact.service
 
 import com.yechanpark.springbootkotlinreact.model.Board
 import com.yechanpark.springbootkotlinreact.repository.BoardRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,8 +13,8 @@ class BoardService(private val boardRepository: BoardRepository) { // constructo
         return boardRepository.getOne(id)
     }
 
-    fun getBoards(): List<Board> {
-        return boardRepository.findAll()
+    fun getBoards(pageable: Pageable): Page<Board> {
+        return boardRepository.findAll(pageable)
     }
 
     fun save(board: Board) {
