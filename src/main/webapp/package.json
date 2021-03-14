@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.21.1",
     "immer": "^8.0.1",
+    "lodash": "^4.17.21",
     "node-forge": "^0.10.0",
     "node-notifier": "^9.0.1",
     "object-path": "^0.11.5",
